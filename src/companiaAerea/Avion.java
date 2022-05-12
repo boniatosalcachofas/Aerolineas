@@ -5,13 +5,12 @@ import java.util.Objects;
 public class Avion {
 
 	private int numAvion;
-	private boolean disponible = true;
 	private String ubicacionAvion = "Madrid";
 	
 	
 	public void cambiarUbicacion(String ubicacion) {
 		
-		
+		this.ubicacionAvion = ubicacion;
 		
 	}
 	
@@ -33,12 +32,7 @@ public class Avion {
 	public void setNumAvion(int numAvion) {
 		this.numAvion = numAvion;
 	}
-	public boolean isDisponible() {
-		return disponible;
-	}
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
-	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(numAvion);

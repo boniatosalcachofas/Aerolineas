@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class Vuelo {
 	
-	static int numVuelos = 0;
+	private static int numVuelos = 0;
 	
-	int avionVuelo;
-	String ciudadOrigen;
-	LocalTime horaPartida;
-	String ciudadDestino;
-	LocalTime horaDestino;
-	String codVuelo;
+	private int avionVuelo;
+	private String ciudadOrigen;
+	private LocalTime horaPartida;
+	private String ciudadDestino;
+	private LocalTime horaDestino;
+	private String codVuelo;
 	
 	
 	static public int nuevoVuelo() {
@@ -26,6 +26,13 @@ public class Vuelo {
 	public void MostrarInformacionVuelo() {
 		
 		System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida);
+		
+	}
+	
+	public void establecerHoraLlegada(Integer duracionVuelo) {
+		
+		horaDestino = horaPartida.plusMinutes(duracionVuelo);
+
 		
 	}
 	

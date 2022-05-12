@@ -1,6 +1,6 @@
 package companiaAerea;
 import java.time.*;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.time.format.*;
 import java.util.Random;
 import java.util.ArrayList;
@@ -10,54 +10,72 @@ import java.util.Scanner;
 
 
 public class Principal {
+	static DateTimeFormatter diaMesAnyo = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+	static DateTimeFormatter mesDiaAnyo = DateTimeFormatter.ofPattern("MM-dd-YYYY");
+	
 	
 	static Avion aviones[] = new Avion[4];
 	//Mete todos los vuelos
 	static LinkedList <Vuelo> VuelosTotales = new LinkedList();
 	//Mete los vuelos con su duracion
 	static HashMap <Vuelo, Integer> vuelosDuracion = new HashMap();
-	static LocalDate fechaVuelo = LocalDate.now();
-	static LocalTime horaPrueba = LocalTime.now();
+	static LocalDate fechaActual = LocalDate.now();
+
+	
 	
 
 	public static void main(String[] args) {
 		// TODO Aasacdsauto-generated method stub
-		HashSet<Avion> vehiculos = new HashSet();
-		Random r = new Random();
+	
 		aviones[0] = new Avion(1);
 		aviones[1] = new Avion(2);
 		aviones[2] = new Avion(3);
 		aviones[3] = new Avion(4);
 		
-		menuPrincipal();
+		while (true) {
+			menuPrincipal();
+		}
 		
 	}
 	
 	public static void menuPrincipal() {
 	
-		HashSet <Vuelo> vuelos = vuelosProgramados();
+		LinkedHashSet <Vuelo> vuelos = vuelosProgramados();
 		
-		DateTimeFormatter diaMesAnyo = DateTimeFormatter.ofPattern("dd-MM-YYYY");
-		DateTimeFormatter mesDiaAnyo = DateTimeFormatter.ofPattern("MM-dd-YYYY");
 
-		System.out.println(fechaVuelo.format(diaMesAnyo) + 
+		System.out.println(fechaActual.format(diaMesAnyo) + 
 				"\n1.- Listado de vuelos totales\n"
 				+ "2.- Pasar dia siguiente y ver vuelos\n"
-				+ "\nVuelos " + fechaVuelo.format(mesDiaAnyo) + "\tHora de salida");
+				+ "\nVuelos " + fechaActual.format(mesDiaAnyo) + "\tHora de salida");
 		
 		for(Vuelo v : vuelos) {
-			
 			v.MostrarInformacionVuelo();
-			
 		}
 		
 		establecerDuracionHoraDestino(vuelos);
 		
+		System.out.println("\n1.- Listado de vuelos totales"
+				+ "\n2.- Pasar dia siguiente y ver vuelos"
+				+ "\nPulsa una opcion:");
+		
+		int eleccion = new Scanner(System.in).nextInt();
+		
+		
+		switch (eleccion) {
+		
+		case 1:
+			
+		
+		case 2:
+			pasoDia();
+			break;
+		
+		}
 		
 		
 	}
 
-	public static void establecerDuracionHoraDestino(HashSet<Vuelo> vuelos) {
+	public static void establecerDuracionHoraDestino(LinkedHashSet<Vuelo> vuelos) {
 		for(Vuelo v : vuelos) {
 			
 			if(!vuelosDuracion.containsKey(v)) {
@@ -76,16 +94,32 @@ public class Principal {
 				}
 				//anyade el vuelo a los arrays, tanto totales como los de duracion
 				vuelosDuracion.put(v, duracion);
-				VuelosTotales.addLast(v);
+
+				
+			}else {
+				
+				System.out.println("Hora de llegada del vuelo del avion " + v.getAvionVuelo() + ": "
+						+ v.getCiudadOrigen() + " - " + v.getCiudadDestino());
+				
 				
 			}
+			
+			Integer duracion = vuelosDuracion.get(v);
+			v.establecerHoraLlegada(duracion);
+			
+			System.out.println("Hora de llegada: " + v.getHoraDestino());
+			
+			
+			VuelosTotales.addLast(v);
+			
+			
 			
 		}
 	}
 	
-	//saca 4 vuelos
-	public static HashSet <Vuelo> vuelosProgramados() {
-		HashSet <Vuelo> vuelosDiarios = new HashSet();
+	//saca 4 vuelos diarios
+	public static LinkedHashSet <Vuelo> vuelosProgramados() {
+		LinkedHashSet <Vuelo> vuelosDiarios = new LinkedHashSet();
 		
 		for(int i = 0; i < aviones.length; i++) {
 			
@@ -97,6 +131,7 @@ public class Principal {
 			Vuelo vuelo = new Vuelo((i+1), origen, horaPartida, destino, codVuelo);
 			
 			if(vuelosDiarios.contains(vuelo)) {
+				Vuelo.setNumVuelos(Vuelo.getNumVuelos()-1);
 				i--;
 				continue;
 			
@@ -138,6 +173,12 @@ public class Principal {
 		
 		
 	return horaVuelo;	
+		
+	}
+	
+	public static void pasoDia() {
+		
+		fechaActual = fechaActual.plusDays(1);
 		
 	}
 	
