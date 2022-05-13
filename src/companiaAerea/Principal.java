@@ -43,9 +43,9 @@ public class Principal {
 	public static void menuPrincipal() {
 	
 		LinkedHashSet <Vuelo> vuelos = vuelosProgramados();
-		
+		boolean bucleVuelosTotales = true;
 
-		while (true) {
+		while (bucleVuelosTotales) {
 			System.out.println(fechaActual.format(diaMesAnyo) + "\n1.- Listado de vuelos totales\n"
 					+ "2.- Pasar dia siguiente y ver vuelos\n" + "\nVuelos " + fechaActual.format(mesDiaAnyo)
 					+ "\tHora de salida");
@@ -62,11 +62,13 @@ public class Principal {
 			case 1:
 				mostrarVuelosTotales();
 				vuelosNuevos = false;
+				bucleVuelosTotales = true;
 				break;
 
 			case 2:
 				pasoDia();
 				vuelosNuevos = true;
+				bucleVuelosTotales = false;
 				break;
 
 			}

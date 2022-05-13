@@ -30,9 +30,13 @@ public class Vuelo {
 	}
 	//El booleano decide si muestras la informadion con los dias o sin los dias, siendo true sin los dias y false con los dias
 	public void MostrarInformacionVuelo(boolean eleccionMostrar) {
+		//transforma a minuscula las ciudades
+		String destinoMinuscula = this.ciudadDestino.substring(0,1) + this.ciudadDestino.substring(1, this.ciudadDestino.length()).toLowerCase();
+		String origenMinuscula = this.ciudadOrigen.substring(0,1) + this.ciudadOrigen.substring(1,this.ciudadOrigen.length()).toLowerCase();
 		
-		if(eleccionMostrar)System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida);
-		else if(!eleccionMostrar)System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida +" - " + this.horaDestino
+		
+		if(eleccionMostrar)System.out.println(this.codVuelo + ": " + origenMinuscula + " - " + destinoMinuscula + " \t" + this.horaPartida);
+		else if(!eleccionMostrar)System.out.println(this.codVuelo + ": " + origenMinuscula + " - " + destinoMinuscula + " \t" + this.horaPartida +" - " + this.horaDestino
 														+ "\tDia de vuelo: " + this.diaSalida.format(diaMes) + " - " + this.diaLlegada.format(diaMes));
 	}
 	
