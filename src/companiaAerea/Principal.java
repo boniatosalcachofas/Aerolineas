@@ -66,6 +66,7 @@ public class Principal {
 
 			case 2:
 				pasoDia();
+				vuelosNuevos = true;
 				break;
 
 			}
