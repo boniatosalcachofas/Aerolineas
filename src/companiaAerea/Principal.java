@@ -104,8 +104,8 @@ public class Principal {
 				
 			}
 			
-			Integer duracion = vuelosDuracion.get(v);
-			v.establecerHoraLlegada(duracion);
+			Integer duracionVuelo = vuelosDuracion.get(v);
+			v.establecerHoraLlegada(duracionVuelo);
 			
 			
 			if(vuelosNuevos)VuelosTotales.addLast(v);
