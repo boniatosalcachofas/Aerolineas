@@ -20,6 +20,8 @@ public class Principal {
 	//Mete los vuelos con su duracion
 	static HashMap <Vuelo, Integer> vuelosDuracion = new HashMap();
 	static LocalDate fechaActual = LocalDate.now();
+	//Comprueba que los vuelos que se introducen no se repiten para mostrarlos en pantalla
+	static boolean vuelosNuevos = true;
 
 	
 	
@@ -43,38 +45,36 @@ public class Principal {
 		LinkedHashSet <Vuelo> vuelos = vuelosProgramados();
 		
 
-		System.out.println(fechaActual.format(diaMesAnyo) + 
-				"\n1.- Listado de vuelos totales\n"
-				+ "2.- Pasar dia siguiente y ver vuelos\n"
-				+ "\nVuelos " + fechaActual.format(mesDiaAnyo) + "\tHora de salida");
-		
-		for(Vuelo v : vuelos) {
-			v.MostrarInformacionVuelo();
-		}
-		
-		establecerDuracionHoraDestino(vuelos);
-		
-		System.out.println("\n1.- Listado de vuelos totales"
-				+ "\n2.- Pasar dia siguiente y ver vuelos"
-				+ "\nPulsa una opcion:");
-		
-		int eleccion = new Scanner(System.in).nextInt();
-		
-		
-		switch (eleccion) {
-		
-		case 1:
-			
-		
-		case 2:
-			pasoDia();
-			break;
-		
+		while (true) {
+			System.out.println(fechaActual.format(diaMesAnyo) + "\n1.- Listado de vuelos totales\n"
+					+ "2.- Pasar dia siguiente y ver vuelos\n" + "\nVuelos " + fechaActual.format(mesDiaAnyo)
+					+ "\tHora de salida");
+			for (Vuelo v : vuelos) {
+				v.MostrarInformacionVuelo(true);
+			}
+			System.out.println();
+			establecerDuracionHoraDestino(vuelos);
+			System.out.println("\n1.- Listado de vuelos totales" + "\n2.- Pasar dia siguiente y ver vuelos"
+					+ "\nPulsa una opcion:");
+			int eleccion = new Scanner(System.in).nextInt();
+			switch (eleccion) {
+
+			case 1:
+				mostrarVuelosTotales();
+				vuelosNuevos = false;
+				break;
+
+			case 2:
+				pasoDia();
+				break;
+
+			}
 		}
 		
 		
 	}
-
+	//Pregunta, si no se conoce la duracion de ese vuelo, su duracion, y si es asi, lo omite y almacena el vuelo en vuelos totales.
+	//muestra siempre la hora de llegada
 	public static void establecerDuracionHoraDestino(LinkedHashSet<Vuelo> vuelos) {
 		for(Vuelo v : vuelos) {
 			
@@ -107,10 +107,8 @@ public class Principal {
 			Integer duracion = vuelosDuracion.get(v);
 			v.establecerHoraLlegada(duracion);
 			
-			System.out.println("Hora de llegada: " + v.getHoraDestino());
 			
-			
-			VuelosTotales.addLast(v);
+			if(vuelosNuevos)VuelosTotales.addLast(v);
 			
 			
 			
@@ -128,7 +126,7 @@ public class Principal {
 			LocalTime horaPartida = generadorHoras();
 			String codVuelo = aviones[i].getNumAvion() + origen.substring(0,2) + destino.substring(0,2) + Vuelo.nuevoVuelo();
 			
-			Vuelo vuelo = new Vuelo((i+1), origen, horaPartida, destino, codVuelo);
+			Vuelo vuelo = new Vuelo((i+1), origen, horaPartida, destino, codVuelo, fechaActual);
 			
 			if(vuelosDiarios.contains(vuelo)) {
 				Vuelo.setNumVuelos(Vuelo.getNumVuelos()-1);
@@ -184,7 +182,12 @@ public class Principal {
 	
 	public static void mostrarVuelosTotales() {
 		
+		for(Vuelo v : VuelosTotales) {
+			v.MostrarInformacionVuelo(false);
+		}
 		
+		System.out.println("Continuar con el menu");
+		String continuar = new Scanner(System.in).nextLine();
 		
 	}
 	

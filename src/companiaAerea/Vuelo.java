@@ -1,11 +1,14 @@
 package companiaAerea;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Vuelo {
 	
 	private static int numVuelos = 0;
+	
+	private DateTimeFormatter diaMes = DateTimeFormatter.ofPattern("dd-MM");
 	
 	private int avionVuelo;
 	private String ciudadOrigen;
@@ -13,6 +16,8 @@ public class Vuelo {
 	private String ciudadDestino;
 	private LocalTime horaDestino;
 	private String codVuelo;
+	private LocalDate diaSalida;
+	private LocalDate diaLlegada;
 	
 	
 	static public int nuevoVuelo() {
@@ -23,28 +28,45 @@ public class Vuelo {
 		
 		
 	}
-	public void MostrarInformacionVuelo() {
+	//El booleano decide si muestras la informadion con los dias o sin los dias, siendo true sin los dias y false con los dias
+	public void MostrarInformacionVuelo(boolean eleccionMostrar) {
 		
-		System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida);
-		
+		if(eleccionMostrar)System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida);
+		else if(!eleccionMostrar)System.out.println(this.codVuelo + ": " + this.ciudadOrigen + " - " + this.ciudadDestino + " \t" + this.horaPartida +" - " + this.horaDestino
+														+ "\tDia de vuelo: " + this.diaSalida.format(diaMes) + " - " + this.diaLlegada.format(diaMes));
 	}
+	
+	
 	
 	public void establecerHoraLlegada(Integer duracionVuelo) {
 		
 		horaDestino = horaPartida.plusMinutes(duracionVuelo);
+		
+		if(horaDestino.isBefore(LocalTime.of(07, 00)) ) {
+			
+			this.diaLlegada = diaSalida.plusDays(1);
+			System.out.println("Hora de llegada: " + horaDestino + " del dia siguiente");
+			
+			
+		}else {
+			this.diaLlegada = this.diaSalida;
+			System.out.println("Hora de llegada: " + horaDestino);
+			
+		}
 
 		
 	}
 	
 	
 	//constructor
-	public Vuelo(int avionVuelo, String ciudadOrigen, LocalTime horaPartida, String ciudadDestino, String codVuelo) {
+	public Vuelo(int avionVuelo, String ciudadOrigen, LocalTime horaPartida, String ciudadDestino, String codVuelo, LocalDate diaSalida) {
 		super();
 		this.avionVuelo = avionVuelo;
 		this.ciudadOrigen = ciudadOrigen;
 		this.horaPartida = horaPartida;
 		this.ciudadDestino = ciudadDestino;
 		this.codVuelo = codVuelo;
+		this.diaSalida = diaSalida;
 	}
 
 
