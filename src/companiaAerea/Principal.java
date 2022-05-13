@@ -88,7 +88,7 @@ public class Principal {
 					duracion = new Scanner(System.in).nextInt();
 					if (duracion > 300) {
 						
-						System.out.println("duracion excedida, por favor, introduce un tiempo menor a 5 horas o 300 minutos.");
+						System.out.println("duracion excedida, por favor, introduce un tiempo menor o igual a 5 horas o 300 minutos.");
 						
 					}else break;
 				}
